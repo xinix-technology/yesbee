@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+var argv = require('optimist').argv,
+    manager = require('../lib/manager');
+
+switch(argv._[0] || 'start') {
+    case 'start':
+        manager.start();
+        break;
+    case 'stop':
+        manager.stop();
+        break;
+    default:
+        console.log('Usage: ' + argv.$0 + ' [start|stop]');
+}
