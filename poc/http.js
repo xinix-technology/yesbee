@@ -14,16 +14,28 @@
 // s.listen(3001);
 
 var Component = require('../lib/component'),
-    Context = require('../lib/context');
+    Context = require('../lib/context'),
+    Q = require('q');
 
 
 var context = new Context();
 
-var route = context.from('http-inbound:http://localhost:3000/anu/itu')
+var route = context.from('http-inbound:http://localhost:3000?timeout=2000')
     .to(function(exchange) {
-        console.log('xxxxx', exchange);
+        console.log('h', exchange.headers);
+        console.log('b', exchange.body);
+        // var deferred = Q.defer();
+
+        // setTimeout(function() {
+        //     exchange.body = 'Test aja ' + new Date();
+        //     deferred.resolve(exchange);
+        // }, 1000);
+
+        // return deferred.promise;
+
+        // return exchange;
     });
 
 
-context.trace = true;
+// context.trace = true;
 context.start();
