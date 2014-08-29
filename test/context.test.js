@@ -1,7 +1,8 @@
-var assert = require("assert"),
-    expect = require('chai').expect;
-
-var Context = require('../lib/context');
+var expect = require('chai').expect,
+    Route = require('../lib/route'),
+    Context = require('../lib/context'),
+    ProducerTemplate = require('../lib/producer-template'),
+    _ = require('lodash');
 
 describe('Context', function(){
     var context;
@@ -16,10 +17,12 @@ describe('Context', function(){
         });
     });
 
-    describe('#from()', function(){
-        it('should create route', function() {
+    describe('.from()', function(){
+        it('should create a route', function() {
             var route = context.from('mock:test');
+
             expect(route).to.be.an('object');
+            expect(route).to.be.an.instanceof(Route);
         });
     });
 
@@ -30,12 +33,11 @@ describe('Context', function(){
 
             context.start();
 
-            for(var i in context.routes) {
-                var inputs = context.routes[i].inputs;
-                for(var j in inputs) {
-                    expect(inputs[j].status).to.equal(1);
-                }
-            }
+            _.each(context.routes, function(route) {
+                _.each(route.inputs, function(input) {
+                    expect(input.status).to.equal(1);
+                });
+            });
         });
     });
 
@@ -46,12 +48,37 @@ describe('Context', function(){
 
             context.stop();
 
-            for(var i in context.routes) {
-                var inputs = context.routes[i].inputs;
-                for(var j in inputs) {
-                    expect(inputs[j].status).to.equal(0);
-                }
-            }
+            _.each(context.routes, function(route) {
+                _.each(route.inputs, function(input) {
+                    expect(input.status).to.equal(0);
+                });
+            });
+        });
+    });
+
+    describe('.createProducerTemplate()', function() {
+        it('should create new producer template', function() {
+            var template = context.createProducerTemplate();
+
+            expect(template).to.be.an.instanceof(ProducerTemplate);
+        });
+
+        it('should start if context start', function() {
+            var template = context.createProducerTemplate();
+
+            expect(template.status).to.be.equal(0);
+
+            context.start();
+
+            expect(template.status).to.be.equal(1);
+        });
+
+        it('should autostart if context already started', function() {
+            context.start();
+
+            var template = context.createProducerTemplate();
+
+            expect(template.status).to.be.equal(1);
         });
     });
 });
