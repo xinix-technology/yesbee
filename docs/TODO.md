@@ -1,16 +1,23 @@
 TODO
 ====
 
-dead letter mechanism
+- autostart service
+- dead letter mechanism
     send
     redeliver for several times
-autostart service
+- implement spawn runner
+- prompt:     avoid ctrl-c
+- clustering mechanism
+    mdns
 
-implement spawn runner
-prompt:     avoid ctrl-c
+- server unittest
+- component dependency resolver
 
 DONE
 ====
 
-Implement manager
-Implement local runner
+- Implement manager
+- Implement local runner
+- registry
+- service: http
+- component: http-inbound unit test and fix
