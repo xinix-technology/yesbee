@@ -2,7 +2,7 @@ var Context = require('../lib/context');
 
 var context = new Context();
 
-var route = context.from('mock:input')
+var route = context.from('direct:input')
     .to(function(exchange) {
         return exchange;
     })
@@ -10,10 +10,10 @@ var route = context.from('mock:input')
         return exchange;
     });
 
-// var route = context.from('mock:input')
-//     .to('mock:satu')
-//     .to('mock:dua')
-//     .to('mock:output');
+// var route = context.from('direct:input')
+//     .to('direct:satu')
+//     .to('direct:dua')
+//     .to('direct:output');
 
 
 context.trace = true;
@@ -21,8 +21,8 @@ context.start();
 
 var template = context.createProducerTemplate();
 
-var ex = template.createExchange('mock:input', 'test-' + new Date());
+var ex = template.createExchange('direct:input', 'test-' + new Date());
 ex.pattern = 'inOut';
-template.send('mock:input', ex);
+template.send('direct:input', ex);
 
-// template.send('mock:input', 'test-' + new Date());
+// template.send('direct:input', 'test-' + new Date());
