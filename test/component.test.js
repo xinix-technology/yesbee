@@ -126,15 +126,15 @@ describe('Component', function(){
         // it should error if no receiver alive for several time
     });
 
-    describe('.callback()', function() {
-        it('has default callback() method', function() {
+    describe('.result()', function() {
+        it('has default result() method', function() {
             var component = new Component('direct:test');
 
-            expect(component.callback).to.be.a('function');
+            expect(component.result).to.be.a('function');
         });
 
         // TODO some new specs
-        // it should reach callback on last component send in inout route
+        // it should reach result on last component send in inout route
     });
 
     describe('.initialize()', function() {
@@ -183,15 +183,15 @@ describe('Component', function(){
         });
     });
 
-    describe('.doCallback()', function() {
-        it('should call .callback()', function() {
+    describe('.doResult()', function() {
+        it('should call .result()', function() {
             var component = context.createComponent('direct:x'),
                 x = new Exchange(),
-                spy = chai.spy(component.callback);
+                spy = chai.spy(component.result);
 
-            component.callback = spy;
+            component.result = spy;
 
-            component.doCallback(x);
+            component.doResult(x);
 
             expect(spy).to.have.been.called.once.with(x);
         });
@@ -200,10 +200,10 @@ describe('Component', function(){
     describe('.doSend()', function() {
         it('should send to next component', function(done) {
 
-            var spy = chai.spy();
-
             var route = context.from('direct:a')
-                .to(spy);
+                .to(function() {
+                    done();
+                });
 
             // context.trace = true;
             context.start();
@@ -213,13 +213,6 @@ describe('Component', function(){
             ex.pattern = 'inOnly';
 
             template.send('direct:a', ex);
-
-            setImmediate(function() {
-                expect(spy).to.have.been.called.once();
-
-                done();
-            });
-
         });
 
         it('should send to next component and purge to SINK for inOnly', function(done) {
@@ -241,46 +234,43 @@ describe('Component', function(){
 
             template.send('direct:a', ex);
 
-            setImmediate(function() {
-                expect(spy).to.have.been.called.once();
-                expect(spy2).to.have.been.called.once();
+            setTimeout(function() {
+                expect(spy).to.have.been.called();
+                expect(spy2).to.have.been.called();
 
                 done();
-            });
+            }, 1);
 
         });
 
-        it('should send to next component and callback to source for inOut', function(done) {
+        it('should send to next component and result to source for inOut', function(done) {
 
             var spy = chai.spy(),
                 spy2 = chai.spy(),
                 spy3;
 
-            var route = context.from('direct:a')
+            var route = context.from('direct:a?exchangePattern=inOut')
                 .to(spy);
 
             context.on('::SINK', spy2);
 
             var c = route.query('direct:a');
-            spy3 = chai.spy(c.callback);
-            c.callback = spy3;
+            spy3 = chai.spy(c.result);
+            c.result = spy3;
 
             // context.trace = true;
             context.start();
 
             var template = context.createProducerTemplate();
-            var ex = template.createExchange('test-' + new Date());
-            ex.pattern = 'inOut';
+            template.send('direct:a', 'test-' + new Date());
 
-            template.send('direct:a', ex);
-
-            setImmediate(function() {
-                expect(spy).to.have.been.called.once();
-                expect(spy2).to.have.not.been.called.once();
-                expect(spy3).to.have.been.called.once();
+            setTimeout(function() {
+                expect(spy).to.have.been.called();
+                expect(spy2).to.have.not.been.called();
+                expect(spy3).to.have.been.called();
 
                 done();
-            });
+            }, 10);
 
         });
 

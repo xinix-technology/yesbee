@@ -99,15 +99,17 @@ describe('HTTP Inbound Component', function(){
         });
 
         it('should send message back immediately to CALLBACK channel if pattern inOnly', function() {
-            var c = context.createComponent('http-inbound:http://localhost'),
+            var c = context.createComponent('http-inbound:http://localhost?exchangePattern=inOnly'),
                 exchange = new Exchange(),
                 spy = chai.spy();
 
             context.on('test', spy);
 
-            exchange.property('callback-channel', 'test');
+            context.start = true;
 
-            c.consume(exchange);
+            exchange.property('callback', 'test');
+
+            c.doConsume(exchange);
 
             expect(spy).to.be.called();
         });
@@ -121,15 +123,14 @@ describe('HTTP Inbound Component', function(){
                 done();
             });
 
-            exchange.pattern = 'inOut';
-            exchange.property('callback-channel', 'test');
+            exchange.property('callback', 'test');
 
             c.consume(exchange);
         });
 
     });
 
-    describe('.callback()', function() {
+    describe('.result()', function() {
 
         it('should send result to CALLBACK channel', function(done) {
             var c = context.createComponent('http-inbound:http://localhost'),
@@ -140,11 +141,11 @@ describe('HTTP Inbound Component', function(){
             });
 
             exchange.pattern = 'inOut';
-            exchange.property('callback-channel', 'test');
+            exchange.property('callback', 'test');
 
             c.consume(exchange);
             setTimeout(function() {
-                c.callback(exchange);
+                c.result(exchange);
             }, 10);
         });
 

@@ -77,8 +77,8 @@ describe('Registry', function(){
     });
 
     // describe('require', function(){
-    //     it('should get instance of manager', function() {
-    //         expect(manager).to.be.instanceof(Manager);
+    //     it('should get instance of container', function() {
+    //         expect(container).to.be.instanceof(Container);
     //     });
     // });
 });
