@@ -59,23 +59,23 @@ describe('Service::Http', function(){
 
     describe('.get()', function() {
         it('should return new server if no server exists yet', function() {
-            expect($http.servers).not.has.key('0.0.0.0:3000');
-            var s = $http.get('http://0.0.0.0:3000');
-            expect($http.servers).has.key('0.0.0.0:3000');
+            expect($http.servers).not.has.key('0.0.0.0:3030');
+            var s = $http.get('http://0.0.0.0:3030');
+            expect($http.servers).has.key('0.0.0.0:3030');
             expect(s).to.be.instanceof(httpService.Server);
         });
 
         it('should return same server if available', function() {
-            var s = $http.get('http://0.0.0.0:3000'),
-                s2 = $http.get('http://0.0.0.0:3000/home');
+            var s = $http.get('http://0.0.0.0:3030'),
+                s2 = $http.get('http://0.0.0.0:3030/home');
             expect(s2).to.be.equal(s);
         });
     });
 
     describe('.attach()', function(){
         it('should attach new uri handler to specified server', function() {
-            var uri = 'http://0.0.0.0:3000/test',
-                host = 'http://0.0.0.0:3000',
+            var uri = 'http://0.0.0.0:3030/test',
+                host = 'http://0.0.0.0:3030',
                 c = createHandler(uri),
                 s = $http.get(host);
 
@@ -87,8 +87,8 @@ describe('Service::Http', function(){
 
     describe('.detach()', function(){
         it('should detach new uri handler to specified server', function() {
-            var uri = 'http://0.0.0.0:3000/test',
-                host = 'http://0.0.0.0:3000',
+            var uri = 'http://0.0.0.0:3030/test',
+                host = 'http://0.0.0.0:3030',
                 c = createHandler(uri),
                 s = $http.get(host);
 
@@ -104,7 +104,7 @@ describe('Service::Http', function(){
         var server;
 
         beforeEach(function() {
-            server = new httpService.Server($http, 'http://localhost:3001');
+            server = new httpService.Server($http, 'http://localhost:3031');
         });
 
         afterEach(function(done) {
@@ -125,7 +125,7 @@ describe('Service::Http', function(){
                 }).to.throw(Error);
 
                 expect(function() {
-                    var s = new httpService.Server($http, 'http://localhost:3001');
+                    var s = new httpService.Server($http, 'http://localhost:3031');
                 }).not.to.throw(Error);
             });
         });
@@ -139,7 +139,7 @@ describe('Service::Http', function(){
 
         describe('.route()', function() {
             it('should put route handler for specified pathname', function() {
-                var handler = createHandler('http://localhost:3001');
+                var handler = createHandler('http://localhost:3031');
                 expect(server.routes).not.have.key('/anu/itu');
                 server.route('/anu/itu', handler);
                 expect(server.routes).have.key('/anu/itu');
@@ -148,7 +148,7 @@ describe('Service::Http', function(){
 
         describe('.deroute()', function() {
             it('should remove route handler for specified pathname', function() {
-                var handler = createHandler('http://localhost:3001');
+                var handler = createHandler('http://localhost:3031');
 
                 server.route('/anu/itu', handler);
                 expect(server.routes).have.key('/anu/itu');
@@ -159,16 +159,16 @@ describe('Service::Http', function(){
         });
 
         describe('.listen()', function() {
-            it('should return promise', function() {
-                var promise = server.listen();
-                expect(promise).to.respondTo('then');
-            });
+            // it('should return promise', function() {
+            //     var promise = server.listen();
+            //     expect(promise).to.respondTo('then');
+            // });
 
             it('should listen server for specified uri', function(done) {
                 var promise = server.listen();
 
                 server.listen().then(function() {
-                    http.get("http://localhost:3001", function(res) {
+                    http.get("http://localhost:3031", function(res) {
                         // console.log("Got response: " + res.statusCode);
                         done();
                     });
@@ -177,7 +177,7 @@ describe('Service::Http', function(){
         });
 
         describe('.serve()', function() {
-            it('should send to consumer channel of handler', function(done) {
+            it('should send to in channel of handler', function(done) {
                 var req = new http.IncomingMessage(),
                     res = new http.ServerResponse('get');
 
@@ -185,9 +185,9 @@ describe('Service::Http', function(){
 
                 var handler = createHandler(),
                     spy = chai.spy();
-                var consumerChannelId = handler.getChannelId(Channel.CONSUMER);
+                var inChannelId = handler.getChannelId(Channel.IN);
 
-                $http.on(consumerChannelId, function(exchange) {
+                $http.on(inChannelId, function(exchange) {
                     // console.log(exchange);
                     done();
                 });
@@ -205,7 +205,7 @@ describe('Service::Http', function(){
 
                 res.end = chai.spy();
 
-                server.putCallbackContext(exchange, req, res);
+                server.addScope(exchange, req, res);
                 server.callback(exchange);
 
                 expect(res.end).to.be.called();
