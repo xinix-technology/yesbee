@@ -21,7 +21,8 @@
     "request": "^2.40.0",
     "cli-color": "^0.3.2",
     "mkdirp": "^0.5.0",
-    "later": "~1.1.6"
+    "later": "~1.1.6",
+    "socket.io": "~1.2.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",
