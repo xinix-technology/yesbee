@@ -1,6 +1,7 @@
 TODO
 ====
 
+- yesbee cli (see nginx)
 - dead letter mechanism
     send
     redeliver for several times
@@ -10,8 +11,7 @@ TODO
 - server unittest
 - component dependency resolver
 
-DONE
-====
+## DONE
 
 - Implement manager
 - Implement local runner
@@ -21,7 +21,6 @@ DONE
 - autostart service
 
 
-BURNT
-=====
+## BURNT
 
 - prompt:     avoid ctrl-c
