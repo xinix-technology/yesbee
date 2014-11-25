@@ -1,6 +1,6 @@
 {
   "name": "yesbee",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Light ESB using node.js",
   "main": "index.js",
   "directories": {
@@ -12,15 +12,12 @@
   "author": "Ganesha <reekoheek@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "prompt": "^0.2.13",
     "optimist": "^0.6.1",
     "q": "^1.0.1",
     "node-uuid": "^1.4.1",
     "winston": "^0.7.3",
     "lodash": "^2.4.1",
     "request": "^2.40.0",
-    "cli-color": "^0.3.2",
-    "mkdirp": "^0.5.0",
     "later": "~1.1.6",
     "socket.io": "~1.2.0",
     "easy-table": "^0.3.0"
