@@ -1,6 +1,6 @@
 {
   "name": "yesbee",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Light ESB using node.js",
   "main": "index.js",
   "directories": {
@@ -20,7 +20,8 @@
     "request": "^2.40.0",
     "later": "~1.1.6",
     "socket.io": "~1.2.0",
-    "easy-table": "^0.3.0"
+    "easy-table": "^0.3.0",
+    "cli-color": "^0.3.2"
   },
   "devDependencies": {
     "chai": "^1.9.1",
