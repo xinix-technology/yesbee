@@ -1,7 +1,8 @@
 var chai = require('chai'),
     expect = chai.expect,
     Context = require('../../lib/context'),
-    Channel = require('../../lib/channel'),
+    channel = require('../../channel'),
+    Channel = channel.Channel,
     Exchange = require('../../lib/exchange'),
     Component = require('../../lib/component'),
     spies = require('chai-spies');
