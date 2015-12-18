@@ -78,6 +78,18 @@ describe('Route', function() {
     });
   });
 
+  describe('#process', function() {
+    it ('return self to be chained', function() {
+      var chainMock = function *(next) {
+        yield 'x';
+      };
+      var route = new Route({});
+      var result = route.process(chainMock);
+      assert.equal(route, result);
+    });
+
+  });
+
   describe('#start', function() {
     it('start sources', function() {
       var sourcesMock = [

@@ -1,7 +1,7 @@
 # TODO
 
 - [ ] http component
-- [ ] mock component, attrs: messageCount, 
+- [x] mock component, attrs: messageCount, 
 - [ ] file component
 - [ ] template component
 - [ ] pipe component

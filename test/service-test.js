@@ -90,6 +90,12 @@ describe('Service', function () {
     });
   });
 
+  describe('#client', function() {
+    var service = new Service({}, 'foo');
+    var client = service.client;
+    assert.equal(client, service.app.client);
+  });
+
   // it('compile route', function () {
   //   var appMock = {
   //     addRoute: sinon.spy()

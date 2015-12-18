@@ -1,42 +1,36 @@
 //jshint esnext:true
 const assert = require('assert');
-const directComponent = require('../../lib/components/direct');
-const logComponent = require('../../lib/components/log');
-const App = require('../../lib/app');
-const Route = require('../../lib/route');
 const sinon = require('sinon');
+const Suite = require('../suite');
 
 require('co-mocha');
 
 describe('log component', function() {
   'use strict';
 
-  var app;
+  var suite;
   beforeEach(function() {
-    app = new App()
-      .addComponent('direct', directComponent)
-      .addComponent('log', logComponent);
+    suite = new Suite()
+      .addComponents('direct', 'log');
   });
 
-  function route() {
-    return new Route(app);
-  }
-
-  it ('act as source', function () {
+  it ('act as source', function() {
     assert.throws(function() {
-      route().from('log:foo');
-    }, Error);
+      suite.test(function() {
+        this.from('log:foo');
+      });
+    }, /cannot act as source/i);
   });
 
   it ('act as processor', function *() {
-    var rfoo = route().from('direct:foo')
-      .to('log:bar')
-      .to('log:baz')
-      .start();
+    yield suite.test(function() {
+        this.from('direct:foo')
+          .to('log:bar')
+          .to('log:baz');
+      })
+      .request('direct:foo', []);
 
-    app.logger = sinon.spy();
-    var result = yield app.client.request('direct:foo', []);
-    sinon.assert.calledTwice(app.logger);
-    sinon.assert.calledWith(app.logger, sinon.match.has('message'));
+    sinon.assert.calledTwice(suite.logger);
+    sinon.assert.calledWith(suite.logger, sinon.match.has('message'));
   });
 });

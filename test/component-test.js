@@ -35,6 +35,15 @@ describe('Component', function () {
     });
   });
 
+  describe('#get', function() {
+    it('return source', function() {
+      var sourceMock = {};
+      var component = new Component({}, 'foo');
+      component.sources['foo:x'] = sourceMock;
+      assert.equal(component.get('foo:x'), sourceMock);
+    });
+  });
+
   describe('#request', function() {
     it('throw error if not passing uri', function() {
       var component = new Component({}, 'foo');
