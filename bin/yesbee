@@ -1,3 +1,39 @@
 #!/usr/bin/env node
 
-require('../lib/cli')();
+'use strict';
+
+const argv = require('minimist')(process.argv.slice(2));
+const co = require('co');
+const App = require('../lib/app');
+const _ = require('lodash');
+const Notify = require('../lib/errors/notify');
+
+co(function *() {
+  try {
+    var config = yield require('../lib/config')();
+    var opts = _.reduce(argv, function(result, value, key) {
+      if (key === '_') return result;
+
+      result[key] = value;
+      return result;
+    }, {});
+
+    var app = new App(config);
+
+    try {
+      yield app.run({
+        id: argv._[0],
+        args: argv._.slice(1),
+        opts: opts,
+      });
+    } catch(e) {
+      if (!(e instanceof Notify)) {
+        throw e;
+      }
+
+      app.logger({level:'error', message:e.message});
+    }
+  } catch(e) {
+    console.error('*'.red, e.stack.red);
+  }
+});
