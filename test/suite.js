@@ -4,13 +4,21 @@ const App = require('../lib/app');
 const path = require('path');
 const assert = require('assert');
 const sinon = require('sinon');
+const co = require('co');
 
 module.exports = (function() {
   'use strict';
 
+  var sequence = 0;
+
   function Suite() {
-    this.app = new App();
-    this.logger = this.app.logger = sinon.spy();
+    var app = new App();
+    app.logger = sinon.spy();
+    Object.defineProperties(this, {
+      id: { enumerable: true, value: 'suite-' + sequence++ },
+      app: { enumerable: false, value: app },
+      logger: { enumerable: false, get() { return this.app.logger; } },
+    });
   }
 
   Suite.prototype = {
@@ -34,9 +42,16 @@ module.exports = (function() {
     test(service) {
       assert(service, 'Invalid arguments, {function} service');
 
-      this.app.addService('test', service);
-      this.app.services.test.start();
-      return this;
+      return co(function *() {
+        this.app.addService('test', service);
+        yield this.app.services.test.start();
+      }.bind(this));
+    },
+
+    end() {
+      return co(function *() {
+        yield this.app.services.test.stop();
+      }.bind(this));
     },
 
     request() {

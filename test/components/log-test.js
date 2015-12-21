@@ -14,12 +14,15 @@ describe('log component', function() {
       .addComponents('direct', 'log');
   });
 
-  it ('act as source', function() {
-    assert.throws(function() {
-      suite.test(function() {
+  it ('act as source', function *() {
+    try {
+      yield suite.test(function() {
         this.from('log:foo');
       });
-    }, /cannot act as source/i);
+      throw new Error('Unexpected reach this line, expected error previous lines');
+    } catch(e) {
+      assert(e.message.match(/cannot act as source/i));
+    }
   });
 
   it ('act as processor', function *() {
@@ -27,8 +30,9 @@ describe('log component', function() {
         this.from('direct:foo')
           .to('log:bar')
           .to('log:baz');
-      })
-      .request('direct:foo', []);
+      });
+
+    yield suite.request('direct:foo', []);
 
     sinon.assert.calledTwice(suite.logger);
     sinon.assert.calledWith(suite.logger, sinon.match.has('message'));

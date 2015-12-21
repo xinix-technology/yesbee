@@ -15,7 +15,7 @@ describe('direct component', function() {
   });
 
   it ('act as source', function *() {
-    suite.test(function() {
+    yield suite.test(function() {
       this.from('direct:foo')
         .to(function() {
           this.body = 'Hello ' + this.body.name;
@@ -27,7 +27,7 @@ describe('direct component', function() {
   });
 
   it ('act as processor', function *() {
-    var result = yield suite.test(function() {
+    yield suite.test(function() {
         this.from('direct:foo')
           .to(function() {
             this.body.push('foo1');
@@ -44,8 +44,9 @@ describe('direct component', function() {
             this.body.push('bar1');
             assert.equal(this.uri, 'direct:bar', 'Inside uri is not bar');
           });
-      })
-      .request('direct:foo', []);
+      });
+
+    var result = yield suite.request('direct:foo', []);
 
     assert.deepEqual(result.body, ['foo1', 'bar1', 'foo2']);
   });

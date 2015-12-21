@@ -14,14 +14,15 @@ describe('mock component', function() {
       .addComponents('mock', 'mock');
   });
 
-  it ('act as processor', function () {
-    suite.test(function() {
+  it ('act as processor', function *() {
+    yield suite.test(function() {
       this.from('mock:start')
         .to('mock:foo');
-    })
-    .send('mock:start', 1)
-    .send('mock:start', 2)
-    .send('mock:start', 3);
+    });
+
+    suite.send('mock:start', 1)
+      .send('mock:start', 2)
+      .send('mock:start', 3);
 
     assert.equal(suite.get('mock:foo').data.messages.length, 3);
   });

@@ -35,8 +35,8 @@ describe('Service', function () {
     service.on('stop', events.stop);
     var result = service.start();
 
-    it ('can be chained', function() {
-      assert.equal(result, service, 'return value should be the service itself');
+    it ('return promise', function() {
+      assert(result instanceof Promise, 'return value should be the service itself');
     });
 
     it('invoke start of routes in context', function() {
@@ -70,10 +70,6 @@ describe('Service', function () {
     service.on('start', events.start);
     service.on('stop', events.stop);
     var result = service.stop();
-
-    it ('can be chained', function() {
-      assert.equal(result, service, 'return value should be the service itself');
-    });
 
     it('invoke stop of routes in context', function() {
       sinon.assert.calledOnce(routeMock.stop);

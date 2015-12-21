@@ -115,14 +115,14 @@ describe('App', function() {
     it('return component', function() {
       var app = new App();
       app.components.foo = {};
-      var result = app.getComponentByUri('foo:xxx');
+      var result = app.getComponentByUri('foo:bar');
       assert.equal(result, app.components.foo);
     });
 
     it('throw error when no suitable component found', function() {
       var app = new App();
       assert.throws(function() {
-        app.getComponentByUri('foo:xxx');
+        app.getComponentByUri('foo:bar');
       }, /not found/i);
     });
   });
