@@ -22,17 +22,17 @@ describe('Client', function() {
   });
 
   describe('#send', function() {
-    it ('delegate invocation to component#request', function() {
-      var requestMock = sinon.stub().returns(Promise.resolve());
+    it ('delegate invocation to component#send', function() {
+      var sendMock = sinon.stub();
       var client = new Client({
         getComponentByUri: sinon.stub().returns({
-          request: requestMock,
+          send: sendMock,
         })
       });
 
       var result = client.send('foo:bar', {});
       assert(result === undefined);
-      sinon.assert.calledOnce(requestMock);
+      sinon.assert.calledOnce(sendMock);
     });
   });
 });

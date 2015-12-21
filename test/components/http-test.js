@@ -6,8 +6,9 @@ const request = require('superagent');
 
 require('co-mocha');
 
-describe('mock component', function() {
+describe('http component', function() {
   'use strict';
+
 
   describe('act as source', function() {
     var suite;

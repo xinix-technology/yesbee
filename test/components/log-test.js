@@ -14,7 +14,7 @@ describe('log component', function() {
       .addComponents('direct', 'log');
   });
 
-  it ('act as source', function *() {
+  it ('throw error when act as source', function *() {
     try {
       yield suite.test(function() {
         this.from('log:foo');

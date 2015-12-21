@@ -2,10 +2,10 @@
 
 - [x] mock component, attrs: messageCount, 
 - [x] http component
+- [x] pipe component
 - [ ] http uri accept ?something=x
 - [ ] file component
 - [ ] template component
-- [ ] pipe component
 - [ ] messaging systems
     - [x] message channel
         - [x] bisa pake internal route, atau endpoint processor
