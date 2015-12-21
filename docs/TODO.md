@@ -10,22 +10,21 @@
     - [x] message channel
         - [x] bisa pake internal route, atau endpoint processor
     - [ ] message
-        - [ ] tambahkan exchange pattern saat bikin message pertama
-        - [ ] punya attachments
+        - [x] tambahkan exchange pattern saat bikin message pertama
+        - [x] bikin method component#send
+        - [x] client#send pattern inonly return void
+        - [x] client#request pattern inout return message
+        - [x] inonly processor does not change message state  
+
+        - [-] selain to() ada inOnly() dan inOut()
         - [ ] bisa akses message session data, tidak disimpan di message tapi di aplikasi
         - [ ] bisa akses app data
-        - [ ] bikin method component#send
-        - [ ] client#send pattern inonly return void
-        - [ ] client#request pattern inout return message
-        - [ ] inonly processor does not change message state  
-        - [ ] di awal route pattern inout akan mengubah message
-        - [ ] di awal route inonly tidak akan mengubah message
-        - [ ] selain to() ada inOnly() dan inOut()
+        - [ ] punya attachments
     - [ ] pipes and filters
-        - [ ] route#pipeline
-        - [ ] route#multicast
-        - [ ] multicast default aggregation strategynya ambil yg terakhir aja
-        - [ ] multicast akan copy message (shallow copy)
+        - [x] pipeline => route#to
+        - [x] route#multicast
+        - [x] multicast default aggregation strategynya ambil yg terakhir aja
+        - [x] multicast akan copy message (shallow copy)
     - [ ] message router
         - [ ] route#choice #when #otherwise
         - [ ] route#choice#when callback comparator (lambda)

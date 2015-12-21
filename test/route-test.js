@@ -87,7 +87,6 @@ describe('Route', function() {
       var result = route.process(chainMock);
       assert.equal(route, result);
     });
-
   });
 
   describe('#start', function() {
