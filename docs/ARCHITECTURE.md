@@ -13,14 +13,27 @@
 - service(a)
     + route(a)
         * sources
-            - source(a)
-            - source(b)
+            - source(a) 
         * processors
-            - processor(a)
-            - processor(b)
+            - processor(a) 
+            - processor(b) 
     + route(b)
         * sources
             - source(c)
         * processors
             - processor(c)
             - processor(d)
+
+
+SA => |QAB| => PB => |QBC| => PC
+
+SA() {
+    PB() {
+        PC() {
+            trow
+        }
+        fds
+    } 
+    dsa
+} 
+

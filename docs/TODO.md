@@ -25,15 +25,15 @@
         - [x] route#multicast
         - [x] multicast default aggregation strategynya ambil yg terakhir aja
         - [x] multicast akan copy message (shallow copy)
-    - [ ] message router
-        - [ ] route#choice #when #otherwise
-        - [ ] route#choice#when callback comparator (lambda)
+    - [x] message router
+        - [x] route#choice #when #otherwise
+        - [x] route#choice#when callback comparator (lambda)
     - [ ] message translator
         - [x] route#process
         - [ ] route#transform callback transformer (lambda)
     - [ ] message endpoint
-        - [ ] route#to
-        - [ ] route#to accept dynamic to dengan expression "mock:{headers.next}"
+        - [x] route#to
+        - [-] route#to accept dynamic to dengan expression "mock:{headers.next}"
 - [ ] messaging channels
     - [ ] point to point channel
         - [ ] seda
@@ -43,7 +43,7 @@
         - [ ] mq topic
         - [ ] xmpp
         - [ ] vm / seda with multi process
-        - [ ] route#multicast
+        - [x] route#multicast
     - [ ] dead letter channel
         - [ ] route#error() implement error handler
         - [ ] implement circuit breaker pattern
@@ -57,10 +57,10 @@
     - [ ] message bus
         - [ ] persistency
 - [ ] message construction
-    - [ ] event message
-        - [ ] inonly pattern
-    - [ ] request reply
-        - [ ] inout pattern
+    - [x] event message
+        - [x] inonly pattern
+    - [x] request reply
+        - [x] inout pattern
     - [ ] correlation identifier
         - [ ] add correlation id on headers
         - [ ] is it transactional?
@@ -74,7 +74,7 @@
     - [ ] message filter
         - [ ] route#filter
         - [ ] route#choice when otherwise
-        - [ ] using predicate concept as 
+        - [x] using predicate concept as 
         - [ ] choice#stop
         - [ ] add header filter-matched
     - [ ] dynamic router
@@ -181,7 +181,7 @@
 ## v1 todo
 - [ ] yesbee cli (see nginx)
 - [ ] dead letter mechanism. send and redeliver for several times?
-- [ ] implement spawn runner
+- [x] implement spawn runner
 - [ ] clustering mechanism. mdns?
 - [ ] server unittest
 - [ ] component dependency resolver
