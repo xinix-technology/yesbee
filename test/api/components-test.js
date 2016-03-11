@@ -2,21 +2,19 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const _ = require('lodash');
+const Context = require('../../lib/context');
 const componentsApi = require('../../lib/api/components');
 const co = require('co');
 
 describe('components api', function() {
   'use strict';
 
-  var app, api;
+  var context, api;
   beforeEach(function() {
-    app = {
-      components: {
-        foo: { name: 'foo' },
-        bar: { name: 'bar' }
-      }
-    };
-    api = componentsApi(app);
+    context = new Context();
+    context.components.values.foo = { name: 'foo' };
+    context.components.values.bar = { name: 'bar' };
+    api = componentsApi(context);
   });
 
   function action(name) {

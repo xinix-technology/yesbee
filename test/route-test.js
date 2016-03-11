@@ -1,21 +1,22 @@
-// jshint esnext: true
 const assert = require('assert');
 const sinon = require('sinon');
 const Route = require('../lib/route');
 
 describe('Route', function() {
+  'use strict';
   describe('#from', function() {
     it('create new source for the route', function() {
       var sourceMock = {};
-      var componentMock = {
-        createSource() {
-          return sourceMock;
-        }
-      };
       var route = new Route({
-        getComponentByUri() {
-          return componentMock;
-        }
+        components: {
+          get() {
+            return {
+              createSource() {
+                return sourceMock;
+              }
+            };
+          }
+        },
       });
       var result = route.from('foo:bar');
       assert.equal(route.sources.length, 1);
@@ -24,15 +25,16 @@ describe('Route', function() {
 
     it('return self to be chained', function() {
       var sourceMock = {};
-      var componentMock = {
-        createSource() {
-          return sourceMock;
-        }
-      };
       var route = new Route({
-        getComponentByUri() {
-          return componentMock;
-        }
+        components: {
+          get() {
+            return {
+              createSource() {
+                return sourceMock;
+              }
+            };
+          }
+        },
       });
       var result = route.from('foo:bar');
       assert.equal(result, route);
@@ -42,15 +44,16 @@ describe('Route', function() {
   describe('#to', function() {
     it('create new processor for the route', function() {
       var processorMock = {};
-      var componentMock = {
-        createProcessor() {
-          return processorMock;
-        }
-      };
       var route = new Route({
-        getComponentByUri() {
-          return componentMock;
-        }
+        components: {
+          get() {
+            return {
+              createProcessor() {
+                return processorMock;
+              }
+            };
+          }
+        },
       });
       var result = route.to('foo:bar');
       assert.equal(route.processors.length, 1);
@@ -63,15 +66,16 @@ describe('Route', function() {
 
     it('return self to be chained', function() {
       var processorMock = {};
-      var componentMock = {
-        createProcessor() {
-          return processorMock;
-        }
-      };
       var route = new Route({
-        getComponentByUri() {
-          return componentMock;
-        }
+        components: {
+          get() {
+            return {
+              createProcessor() {
+                return processorMock;
+              }
+            };
+          }
+        },
       });
       var result = route.to('foo:bar');
       assert.equal(result, route);

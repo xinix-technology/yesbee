@@ -34,7 +34,8 @@ describe('log component', function() {
 
     yield suite.request('direct:foo', []);
 
-    sinon.assert.calledTwice(suite.logger);
+    sinon.assert.calledWith(suite.logger, sinon.match.has('$name', 'log:bar'));
+    sinon.assert.calledWith(suite.logger, sinon.match.has('$name', 'log:baz'));
     sinon.assert.calledWith(suite.logger, sinon.match.has('message'));
   });
 });

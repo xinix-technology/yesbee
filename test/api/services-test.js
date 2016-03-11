@@ -2,21 +2,19 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const _ = require('lodash');
+const Context = require('../../lib/context');
 const servicesApi = require('../../lib/api/services');
 const co = require('co');
 
 describe('services api', function() {
   'use strict';
 
-  var app, api;
+  var context, api;
   beforeEach(function() {
-    app = {
-      services: {
-        foo: { name: 'foo', status: 0 },
-        bar: { name: 'bar', status: 0 }
-      }
-    };
-    api = servicesApi(app);
+    context = new Context();
+    context.services.values.foo = { name: 'foo', status: 0 };
+    context.services.values.bar = { name: 'bar', status: 0 };
+    api = servicesApi(context);
   });
 
   function action(name) {
@@ -67,13 +65,13 @@ describe('services api', function() {
   describe('/{name}/start', function() {
     it('invoke service#start()', function(done) {
       co(function *() {
-        app.services.foo.start = sinon.spy();
-        app.services.bar.start = sinon.spy();
+        context.services.values.foo.start = sinon.spy();
+        context.services.values.bar.start = sinon.spy();
         var result = yield action('start')({
           attributes: { name: 'foo' }
         });
-        sinon.assert.calledOnce(app.services.foo.start);
-        sinon.assert.notCalled(app.services.bar.start);
+        sinon.assert.calledOnce(context.services.values.foo.start);
+        sinon.assert.notCalled(context.services.values.bar.start);
       }).then(done, done);
     });
 
@@ -98,13 +96,13 @@ describe('services api', function() {
   describe('/{name}/stop', function() {
     it('invoke service#stop()', function(done) {
       co(function *() {
-        app.services.foo.stop = sinon.spy();
-        app.services.bar.stop = sinon.spy();
+        context.services.values.foo.stop = sinon.spy();
+        context.services.values.bar.stop = sinon.spy();
         var result = yield action('stop')({
           attributes: { name: 'foo' }
         });
-        sinon.assert.calledOnce(app.services.foo.stop);
-        sinon.assert.notCalled(app.services.bar.stop);
+        sinon.assert.calledOnce(context.services.values.foo.stop);
+        sinon.assert.notCalled(context.services.values.bar.stop);
       }).then(done, done);
     });
 

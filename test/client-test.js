@@ -10,9 +10,11 @@ describe('Client', function() {
     it ('delegate invocation to component#request', function() {
       var requestMock = sinon.stub().returns(Promise.resolve());
       var client = new Client({
-        getComponentByUri: sinon.stub().returns({
-          request: requestMock,
-        })
+        components: {
+          get: sinon.stub().returns({
+            request: requestMock,
+          })
+        }
       });
 
       var result = client.request('foo:bar', {});
@@ -25,9 +27,11 @@ describe('Client', function() {
     it ('delegate invocation to component#send', function() {
       var sendMock = sinon.stub();
       var client = new Client({
-        getComponentByUri: sinon.stub().returns({
-          send: sendMock,
-        })
+        components: {
+          get: sinon.stub().returns({
+            send: sendMock,
+          })
+        }
       });
 
       var result = client.send('foo:bar', {});

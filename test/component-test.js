@@ -4,6 +4,8 @@ const assert = require('assert');
 const Component = require('../lib/component');
 
 describe('Component', function () {
+  'use strict';
+
   describe('#createSource', function() {
     it('throw unsatisfied uri pattern on wrong uri', function() {
       var appMock = {
@@ -74,6 +76,27 @@ describe('Component', function () {
       assert.equal(result.constructor.name, 'Promise');
 
       sinon.assert.calledOnce(sourceMock.consume);
+    });
+  });
+
+  describe('Registry', function() {
+    var registry;
+    beforeEach(function() {
+      registry = new Component.Registry({});
+    });
+
+    describe('#get', function() {
+      it('return component', function() {
+        registry.values.foo = {};
+        var result = registry.get('foo:bar');
+        assert.equal(result, registry.values.foo);
+      });
+
+      it('throw error when no suitable component found', function() {
+        assert.throws(function() {
+          registry.get('foo:bar');
+        }, /not found/i);
+      });
     });
   });
 });

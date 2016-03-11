@@ -5,9 +5,9 @@ const mocha = require('gulp-mocha');
 gulp.task('test', () => {
   return gulp.src(['test/**/*.js'])
     .pipe(mocha())
-    .once('error', () => {
-      process.exit(1);
-    })
+    // .once('error', () => {
+    //   process.exit(1);
+    // })
     .once('end', () => {
       process.exit();
     });
@@ -26,9 +26,9 @@ gulp.task('coverage', ['pre-coverage'], () => {
       reporters: [ 'lcov', 'json', 'text', 'text-summary'],
     }))
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
-    .once('error', () => {
-      process.exit(1);
-    })
+    // .once('error', () => {
+    //   process.exit(1);
+    // })
     .once('end', () => {
       process.exit();
     });

@@ -4,7 +4,7 @@
 
 const argv = require('minimist')(process.argv.slice(2));
 const co = require('co');
-const App = require('../lib/app');
+const Context = require('../lib/context');
 const _ = require('lodash');
 const Notify = require('../lib/errors/notify');
 
@@ -18,10 +18,10 @@ co(function *() {
       return result;
     }, {});
 
-    var app = new App(config);
+    var context = new Context(config);
 
     try {
-      yield app.run({
+      yield context.run({
         id: argv._[0],
         args: argv._.slice(1),
         opts: opts,
@@ -31,7 +31,7 @@ co(function *() {
         throw e;
       }
 
-      app.logger({level:'error', message:e.message});
+      context.logger({level:'error', message:e.message});
     }
   } catch(e) {
     console.error('*'.red, e.stack.red);

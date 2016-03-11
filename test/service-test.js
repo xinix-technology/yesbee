@@ -3,18 +3,25 @@ const sinon = require('sinon');
 const assert = require('assert');
 const Service = require('../lib/service');
 
+require('co-mocha');
+
 describe('Service', function () {
+  'use strict';
+
   describe('#from', function() {
     it('invoke component#createSource', function() {
       var componentMock = {
         createSource: sinon.spy()
       };
-      var appMock = {
-        getComponentByUri: function(uri) {
-          return componentMock;
+      var contextMock = {
+        logger() {},
+        components: {
+          get() {
+            return componentMock;
+          }
         }
       };
-      var service = new Service(appMock, 'foo');
+      var service = new Service(contextMock, 'foo');
       service.from('direct:foo');
       sinon.assert.calledOnce(componentMock.createSource);
     });
@@ -29,14 +36,20 @@ describe('Service', function () {
       start: sinon.spy(),
       stop: sinon.spy(),
     };
-    var service = new Service({}, 'foo');
-    service.routes.push(routeMock);
-    service.on('start', events.start);
-    service.on('stop', events.stop);
-    var result = service.start();
+
+    var service, result;
+    before(function *() {
+      service = new Service({
+        logger() {}
+      }, 'foo');
+      service.routes.push(routeMock);
+      service.on('start', events.start);
+      service.on('stop', events.stop);
+      result = yield service.start();
+    });
 
     it ('return promise', function() {
-      assert(result instanceof Promise, 'return value should be the service itself');
+      assert.equal(result, service, 'return value should be the service itself');
     });
 
     it('invoke start of routes in context', function() {
@@ -89,14 +102,36 @@ describe('Service', function () {
   describe('#client', function() {
     var service = new Service({}, 'foo');
     var client = service.client;
-    assert.equal(client, service.app.client);
+    assert.equal(client, service.context.client);
+  });
+
+  describe('Registry', function() {
+    describe('#put', function() {
+      var registry;
+      beforeEach(function() {
+        registry = new Service.Registry({});
+      });
+
+      it('return new service', function() {
+        var result = registry.put('foo', sinon.spy());
+        assert(result instanceof Service);
+      });
+
+      it('add new service', function() {
+        var metaMock = sinon.spy();
+        assert.equal(Object.keys(registry.values).length, 0);
+        registry.put('foo', metaMock);
+        assert(registry.values.foo);
+        sinon.assert.calledOnce(metaMock);
+      });
+    });
   });
 
   // it('compile route', function () {
-  //   var appMock = {
+  //   var contextMock = {
   //     addRoute: sinon.spy()
   //   };
-  //   var service = new Service(appMock, 'foo');
+  //   var service = new Service(contextMock, 'foo');
   //   service.from('direct:foo')
   //     .to('direct:bar');
   //   // console.log(service);
