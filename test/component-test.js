@@ -8,9 +8,9 @@ describe('Component', function () {
 
   describe('#createSource', function() {
     it('throw unsatisfied uri pattern on wrong uri', function() {
-      var appMock = {
+      var contextMock = {
       };
-      var component = new Component(appMock, 'foo');
+      var component = new Component(contextMock, 'foo');
 
       assert.throws(function() {
         component.createSource('bar:baz');
@@ -18,9 +18,9 @@ describe('Component', function () {
     });
 
     it('throw error on create source twice', function() {
-      var appMock = {
+      var contextMock = {
       };
-      var component = new Component(appMock, 'foo');
+      var component = new Component(contextMock, 'foo');
       component.createSource('foo:bar');
       assert.throws(function() {
         component.createSource('foo:bar');

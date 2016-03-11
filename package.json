@@ -2,7 +2,7 @@
   "name": "yesbee",
   "version": "2.0.0",
   "description": "yesbee is a lightweight javascript ESB",
-  "main": "lib/app.js",
+  "main": "lib/context.js",
   "scripts": {
     "test": "gulp test"
   },
