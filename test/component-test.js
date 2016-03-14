@@ -47,6 +47,22 @@ describe('Component', function () {
   });
 
   describe('#request', function() {
+    var contextMock, sourceMock;
+
+    beforeEach(function() {
+      contextMock = {
+        createMessage: sinon.spy(function() {
+          return {
+            merge: sinon.spy()
+          };
+        })
+      };
+      sourceMock = {
+        consume: sinon.spy()
+      };
+    });
+
+
     it('throw error if not passing uri', function() {
       var component = new Component({}, 'foo');
 
@@ -56,21 +72,23 @@ describe('Component', function () {
     });
 
     it('throw error if no source', function() {
-      var component = new Component({}, 'foo');
+      var component = new Component(contextMock, 'foo');
 
       assert.throws(function() {
         component.request('foo:bar');
       }, /no source/i);
     });
 
-    it('return promise', function() {
-      var sourceMock = {
-        consume: sinon.spy(function *() {
-          yield "x";
-        })
-      };
+    it('invoke context#createMessage', function() {
+      var component = new Component(contextMock, 'foo');
+      component.sources['foo:bar'] = sourceMock;
+      var result = component.request('foo:bar');
 
-      var component = new Component({}, 'foo');
+      sinon.assert.calledOnce(contextMock.createMessage);
+    });
+
+    it('return promise', function() {
+      var component = new Component(contextMock, 'foo');
       component.sources['foo:bar'] = sourceMock;
       var result = component.request('foo:bar');
       assert.equal(result.constructor.name, 'Promise');

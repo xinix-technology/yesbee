@@ -15,8 +15,8 @@ describe('Route#choice', function() {
   });
 
   it('choose by predicate', function *() {
-    yield suite.test(function() {
-      this.from('mock:start')
+    yield suite.test(function(service) {
+      service.from('mock:start')
         .choice()
           .when((message) => message.body === 'foo').to('mock:foo')
           .when((message) => message.body === 'bar').to('mock:bar')

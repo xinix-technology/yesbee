@@ -16,8 +16,8 @@ describe('log component', function() {
 
   it ('throw error when act as source', function *() {
     try {
-      yield suite.test(function() {
-        this.from('log:foo');
+      yield suite.test(function(service) {
+        service.from('log:foo');
       });
       throw new Error('Unexpected reach this line, expected error previous lines');
     } catch(e) {
@@ -26,8 +26,8 @@ describe('log component', function() {
   });
 
   it ('act as processor', function *() {
-    yield suite.test(function() {
-        this.from('direct:foo')
+    yield suite.test(function(service) {
+        service.from('direct:foo')
           .to('log:bar')
           .to('log:baz');
       });

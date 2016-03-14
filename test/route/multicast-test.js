@@ -15,8 +15,8 @@ describe('Route#multicast', function() {
   });
 
   it('send to all of processor asynchronously', function *() {
-    yield suite.test(function() {
-      this.from('mock:start')
+    yield suite.test(function(service) {
+      service.from('mock:start')
         .multicast()
           .to('mock:foo')
           .to('mock:bar')

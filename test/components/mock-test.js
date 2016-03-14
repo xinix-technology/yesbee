@@ -15,8 +15,8 @@ describe('mock component', function() {
   });
 
   it ('act as processor', function *() {
-    yield suite.test(function() {
-      this.from('mock:start')
+    yield suite.test(function(service) {
+      service.from('mock:start')
         .to('mock:foo');
     });
 

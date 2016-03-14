@@ -17,8 +17,8 @@ describe('pipe component', function() {
 
   it('throw error when act as source', function *() {
     try {
-      yield suite.test(function() {
-        this.from('pipe:foo')
+      yield suite.test(function(service) {
+        service.from('pipe:foo')
           .to('mock:bar');
       });
       throw new Error('Unexpected reach this line, expected error previous lines');
@@ -29,8 +29,8 @@ describe('pipe component', function() {
 
   describe('act as processor', function() {
     it ('read cmd from uri', function *() {
-      yield suite.test(function() {
-          this.from('mock:foo')
+      yield suite.test(function(service) {
+          service.from('mock:foo')
             .to('pipe:wc -c');
         });
 
@@ -44,8 +44,8 @@ describe('pipe component', function() {
     });
 
     it ('has cmd from options', function *() {
-      yield suite.test(function() {
-          this.from('mock:foo')
+      yield suite.test(function(service) {
+          service.from('mock:foo')
             .to('pipe:wc', {
               cmd: ['wc', '-w']
             });
@@ -56,8 +56,8 @@ describe('pipe component', function() {
     });
 
     it ('stream result', function *() {
-      yield suite.test(function() {
-          this.from('mock:foo')
+      yield suite.test(function(service) {
+          service.from('mock:foo')
             .to('pipe:wc', {
               cmd: ['wc', '-c'],
               streaming: true
@@ -70,8 +70,8 @@ describe('pipe component', function() {
     });
 
     it ('persistent cmd', function *() {
-      yield suite.test(function() {
-          this.from('mock:foo')
+      yield suite.test(function(service) {
+          service.from('mock:foo')
             .to('pipe:bar', {
               cmd: ['node', './test/components/mocks/persistent.js'],
               persistent: true

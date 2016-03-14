@@ -15,8 +15,8 @@ describe('direct component', function() {
   });
 
   it ('act as source', function *() {
-    yield suite.test(function() {
-      this.from('direct:foo')
+    yield suite.test(function(service) {
+      service.from('direct:foo')
         .to(function() {
           this.body = 'Hello ' + this.body.name;
         });
@@ -27,8 +27,8 @@ describe('direct component', function() {
   });
 
   it ('act as processor', function *() {
-    yield suite.test(function() {
-        this.from('direct:foo')
+    yield suite.test(function(service) {
+        service.from('direct:foo')
           .to(function() {
             this.body.push('foo1');
             assert.equal(this.uri, 'direct:foo', 'Before uri is not foo');
@@ -39,7 +39,7 @@ describe('direct component', function() {
             assert.equal(this.uri, 'direct:foo', 'After uri is not foo');
           });
 
-        this.from('direct:bar')
+        service.from('direct:bar')
           .to(function() {
             this.body.push('bar1');
             assert.equal(this.uri, 'direct:bar', 'Inside uri is not bar');

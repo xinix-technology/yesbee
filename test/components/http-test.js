@@ -9,7 +9,6 @@ require('co-mocha');
 describe('http component', function() {
   'use strict';
 
-
   describe('act as source', function() {
     var suite;
     beforeEach(function() {
@@ -22,8 +21,8 @@ describe('http component', function() {
     });
 
     it ('listen to specified port', function *() {
-      yield suite.test(function() {
-        this.from('http://0.0.0.0:8080')
+      yield suite.test(function(service) {
+        service.from('http://0.0.0.0:8080')
           .to('mock:result');
       });
 
@@ -36,14 +35,14 @@ describe('http component', function() {
     });
 
     it ('attach same daemon to different uris', function *() {
-      yield suite.test(function() {
-        this.from('http://0.0.0.0:8080/bar')
+      yield suite.test(function(service) {
+        service.from('http://0.0.0.0:8080/bar')
           .to(function() {
             this.body = this.body.url;
           })
           .to('mock:bar');
 
-        this.from('http://0.0.0.0:8080')
+        service.from('http://0.0.0.0:8080')
           .to(function() {
             this.body = this.body.url;
           })
@@ -72,13 +71,13 @@ describe('http component', function() {
       suite = new Suite()
         .addComponents('mock', 'http');
 
-      yield suite.test(function() {
-        this.from('http://0.0.0.0:8080')
+      yield suite.test(function(service) {
+        service.from('http://0.0.0.0:8080')
           .to(function() {
             this.body = { uri: this.headers['http-request-uri'] };
           });
 
-        this.from('mock:foo')
+        service.from('mock:foo')
           .to('http://localhost:8080/foo');
       });
     });
