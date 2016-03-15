@@ -21,7 +21,7 @@ describe('Service', function () {
           }
         }
       };
-      var service = new Service(contextMock, 'foo');
+      var service = new Service.Impl(contextMock, 'foo');
       service.from('direct:foo');
       sinon.assert.calledOnce(componentMock.createSource);
     });
@@ -39,7 +39,7 @@ describe('Service', function () {
 
     var service, result;
     before(function *() {
-      service = new Service({
+      service = new Service.Impl({
         logger() {}
       }, 'foo');
       service.routes.push(routeMock);
@@ -58,7 +58,7 @@ describe('Service', function () {
     });
 
     it('set status to 1', function() {
-      assert.equal(new Service({}, 'foo').status, 0);
+      assert.equal(new Service.Impl({}, 'foo').status, 0);
       assert.equal(service.status, 1);
     });
 
@@ -77,7 +77,7 @@ describe('Service', function () {
       start: sinon.spy(),
       stop: sinon.spy(),
     };
-    var service = new Service({}, 'foo');
+    var service = new Service.Impl({}, 'foo');
     service.status = 1;
     service.routes.push(routeMock);
     service.on('start', events.start);
@@ -100,7 +100,7 @@ describe('Service', function () {
   });
 
   describe('#client', function() {
-    var service = new Service({}, 'foo');
+    var service = new Service.Impl({}, 'foo');
     var client = service.client;
     assert.equal(client, service.context.client);
   });
@@ -114,7 +114,7 @@ describe('Service', function () {
 
       it('return new service', function() {
         var result = registry.put('foo', sinon.spy());
-        assert(result instanceof Service);
+        assert(result instanceof Service.Impl);
       });
 
       it('add new service', function() {
@@ -131,7 +131,7 @@ describe('Service', function () {
   //   var contextMock = {
   //     addRoute: sinon.spy()
   //   };
-  //   var service = new Service(contextMock, 'foo');
+  //   var service = new Service.Impl(contextMock, 'foo');
   //   service.from('direct:foo')
   //     .to('direct:bar');
   //   // console.log(service);

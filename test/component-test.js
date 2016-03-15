@@ -10,7 +10,7 @@ describe('Component', function () {
     it('throw unsatisfied uri pattern on wrong uri', function() {
       var contextMock = {
       };
-      var component = new Component(contextMock, 'foo');
+      var component = new Component.Impl(contextMock, 'foo');
 
       assert.throws(function() {
         component.createSource('bar:baz');
@@ -20,7 +20,7 @@ describe('Component', function () {
     it('throw error on create source twice', function() {
       var contextMock = {
       };
-      var component = new Component(contextMock, 'foo');
+      var component = new Component.Impl(contextMock, 'foo');
       component.createSource('foo:bar');
       assert.throws(function() {
         component.createSource('foo:bar');
@@ -30,7 +30,7 @@ describe('Component', function () {
 
   describe('#createProcessor', function() {
     it('return generator function', function() {
-      var component = new Component({}, 'foo');
+      var component = new Component.Impl({}, 'foo');
 
       var result = component.createProcessor('foo:bar');
       assert.equal(result.constructor.name, 'GeneratorFunction');
@@ -40,7 +40,7 @@ describe('Component', function () {
   describe('#get', function() {
     it('return source', function() {
       var sourceMock = {};
-      var component = new Component({}, 'foo');
+      var component = new Component.Impl({}, 'foo');
       component.sources['foo:x'] = sourceMock;
       assert.equal(component.get('foo:x'), sourceMock);
     });
@@ -64,7 +64,7 @@ describe('Component', function () {
 
 
     it('throw error if not passing uri', function() {
-      var component = new Component({}, 'foo');
+      var component = new Component.Impl({}, 'foo');
 
       assert.throws(function() {
         component.request();
@@ -72,7 +72,7 @@ describe('Component', function () {
     });
 
     it('throw error if no source', function() {
-      var component = new Component(contextMock, 'foo');
+      var component = new Component.Impl(contextMock, 'foo');
 
       assert.throws(function() {
         component.request('foo:bar');
@@ -80,7 +80,7 @@ describe('Component', function () {
     });
 
     it('invoke context#createMessage', function() {
-      var component = new Component(contextMock, 'foo');
+      var component = new Component.Impl(contextMock, 'foo');
       component.sources['foo:bar'] = sourceMock;
       var result = component.request('foo:bar');
 
@@ -88,7 +88,7 @@ describe('Component', function () {
     });
 
     it('return promise', function() {
-      var component = new Component(contextMock, 'foo');
+      var component = new Component.Impl(contextMock, 'foo');
       component.sources['foo:bar'] = sourceMock;
       var result = component.request('foo:bar');
       assert.equal(result.constructor.name, 'Promise');
