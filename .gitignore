@@ -1,3 +1,5 @@
 /*.sublime-*
 /node_modules
 /container
+coverage
+examples
