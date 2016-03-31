@@ -1,31 +1,36 @@
 {
   "name": "yesbee",
-  "version": "0.0.4",
-  "description": "Light ESB using node.js",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "version": "2.0.0",
+  "description": "yesbee is a lightweight javascript ESB",
+  "main": "lib/context.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "author": "Ganesha <reekoheek@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "optimist": "^0.6.1",
-    "q": "^1.0.1",
-    "node-uuid": "^1.4.1",
-    "winston": "^0.7.3",
-    "lodash": "^2.4.1",
-    "request": "^2.40.0",
-    "later": "~1.1.6",
-    "socket.io": "~1.2.0",
-    "easy-table": "^0.3.0",
-    "cli-color": "^0.3.2"
+    "JSONStream": "^1.0.7",
+    "bono": "^0.2.0",
+    "co": "^4.6.0",
+    "colors": "^1.1.2",
+    "delegates": "^0.1.0",
+    "fs-promise": "^0.3.1",
+    "js-yaml": "^3.4.3",
+    "koa-compose": "^2.3.0",
+    "lodash": "^3.10.1",
+    "minimist": "^1.2.0",
+    "node-uuid": "^1.4.7",
+    "sprintf-js": "^1.0.3",
+    "superagent": "^1.6.1"
   },
   "devDependencies": {
-    "chai": "^1.9.1",
-    "chai-spies": "^0.5.1"
+    "co-mocha": "^1.1.2",
+    "gulp": "^3.9.1",
+    "gulp-istanbul": "^0.10.3",
+    "gulp-mocha": "^2.2.0",
+    "mocha": "^2.3.4",
+    "nock": "^3.4.1",
+    "sinon": "^1.17.2"
   },
   "repository": {
     "type": "git",

@@ -1,26 +1,187 @@
-TODO
-====
+# TODO
 
-- yesbee cli (see nginx)
-- dead letter mechanism
-    send
-    redeliver for several times
-- implement spawn runner
-- clustering mechanism
-    mdns
-- server unittest
-- component dependency resolver
+- [x] mock component, attrs: messageCount, 
+- [x] http component
+- [x] pipe component
+- [ ] http uri accept ?something=x
+- [ ] file component
+- [ ] template component
+- [ ] messaging systems
+    - [x] message channel
+        - [x] bisa pake internal route, atau endpoint processor
+    - [ ] message
+        - [x] tambahkan exchange pattern saat bikin message pertama
+        - [x] bikin method component#send
+        - [x] client#send pattern inonly return void
+        - [x] client#request pattern inout return message
+        - [x] inonly processor does not change message state  
 
-## DONE
+        - [-] selain to() ada inOnly() dan inOut()
+        - [ ] bisa akses message session data, tidak disimpan di message tapi di aplikasi
+        - [ ] bisa akses app data
+        - [ ] punya attachments
+    - [ ] pipes and filters
+        - [x] pipeline => route#to
+        - [x] route#multicast
+        - [x] multicast default aggregation strategynya ambil yg terakhir aja
+        - [x] multicast akan copy message (shallow copy)
+    - [x] message router
+        - [x] route#choice #when #otherwise
+        - [x] route#choice#when callback comparator (lambda)
+    - [ ] message translator
+        - [x] route#process
+        - [ ] route#transform callback transformer (lambda)
+    - [ ] message endpoint
+        - [x] route#to
+        - [-] route#to accept dynamic to dengan expression "mock:{headers.next}"
+- [ ] messaging channels
+    - [ ] point to point channel
+        - [ ] seda
+        - [ ] mq
+        - [ ] xmpp
+    - [ ] publish subscribe channel
+        - [ ] mq topic
+        - [ ] xmpp
+        - [ ] vm / seda with multi process
+        - [x] route#multicast
+    - [ ] dead letter channel
+        - [ ] route#error() implement error handler
+        - [ ] implement circuit breaker pattern
+        - [ ] redelivery before goes to dead letter channel
+        - [ ] once reached dead letter channel, exchange mark as done but procesed
+        - [ ] dlc clear exception and move exception to properties['exception-caught']
+        - [ ] unit of work untuk mendapatkan original message
+        - [ ] redelivery, limit=, delay=, redelivered= // delayPattern=5:1000;10:5000;20:20000
+    - [ ] guaranteed delivery
+        - [ ] mq component
+    - [ ] message bus
+        - [ ] persistency
+- [ ] message construction
+    - [x] event message
+        - [x] inonly pattern
+    - [x] request reply
+        - [x] inout pattern
+    - [ ] correlation identifier
+        - [ ] add correlation id on headers
+        - [ ] is it transactional?
+        - [ ] bam
+    - [ ] return address
+        - [ ] reply-to header
+- [ ] message routing
+    - [ ] content based router
+        - [ ] route#choice when otherwise
+        - [ ] using predicate concept as lambda
+    - [ ] message filter
+        - [ ] route#filter
+        - [ ] route#choice when otherwise
+        - [x] using predicate concept as 
+        - [ ] choice#stop
+        - [ ] add header filter-matched
+    - [ ] dynamic router
+        - [ ] route#dynamic arg lambda route.dynamic(function() { if (this.headers.x == 1) { return 'mock:x'; } })
+    - [ ] recipient list
+        - [x] route#to
+        - [ ] route#recipientList(function() { return this.headers['recipient-list'].split(',') })
+        - [ ] stop on exception (option)
+        - [ ] ignore invalid (option)
+        - [ ] aggregation strategy
+        - [ ] timeout (option)
+    - [ ] splitter
+        - [ ] route#split(function *() {  yield; })
+        - [ ] accept ordinary function that return array
+    - [ ] aggregator
+        - [ ] route#aggregate(correlationKey, strategy)
+        - [ ] strategy = func(oldMessage, newMessage) { return oldMessage }
+        - [ ] aggregate#timeout, #interval, #size
+    - [ ] resequencer
+        - [ ] route#resequence(predicate)
+        - [ ] resequence#batch or #stream
+        - [ ] resequence#size
+        - [ ] resequence#timeout
+    - [ ] composed message processor
+        - [ ] route#splitter & route#aggregate
+    - [ ] scatter-gather
+        - [ ] route#aggregate
+    - [ ] routing slip
+        - [ ] route#routingSlip
+        - [ ] property set slip-endpoint
+    - [ ] throttler
+        - [ ] route#throttle()#time()
+        - [ ] options max, time
+    - [ ] sampling
+        - [ ] route#sample()
+        - [ ] release 1 other stop
+        - [ ] stop by throwing Stop exception or exchange#stopPropagation()
+        - [ ] options frequency n: sample every n message
+        - [ ] options time n: sample every n time
+    - [ ] delayer
+        - [ ] route#delay(timeMilis)
+        - [ ] route#delay(function() { return this.headers.delay })
+    - [ ] load balancer
+        - [ ] route#loadBalance()
+        - [ ] options strategy
+        - [ ] options endpoints 'mock:1', 'mock:2', 'mock:3'
+        - [ ] strategy roundRobin
+        - [ ] strategy random
+        - [ ] strategy sticky
+        - [ ] strategy topic
+        - [ ] strategy failOver
+        - [ ] strategy weightedRoundRobin?
+        - [ ] strategy weightedRandom?
+        - [ ] strategy weightedCustom?
+        - [ ] strategy circuitBreaker
+    - [ ] multicast
+        - [ ] route#multicast
+    - [ ] loop
+        - [ ] route#loop(number)
+- [ ] message transformation
+    - [ ] content enricher
+        - [ ] using processor
+        - [ ] using template component
+    - [ ] content filter
+        - [ ] using processor
+    - [ ] claim check
+        - [ ] using processor
+    - [ ] normalizer
+        - [ ] using choice
+        - [ ] using processor
+    - [ ] sort
+        - [ ] using processor
+        - [ ] route#sort(function() { return this.body.split("\n"); })
+    - [ ] script
+        - [ ] using processor
+    - [ ] validate
+        - [ ] validate(function() { return this.body == 'bar'; })
+        - [ ] on fail return ValidationError
+        
+- [ ] messaging endpoints
+    - [ ] messaging mapper
+    - [ ] event driven consumer
+    - [ ] polling consumer
+    - [ ] competing consumers
+    - [ ] message dispatcher
+    - [ ] selective consumer
+    - [ ] durable subscriber
+    - [ ] idempotent consumer
+    - [ ] transactional client
+    - [ ] messaging gateway
+    - [ ] service activator
+- [ ] system management
+    - [ ] controlbus
+    - [ ] detour
+    - [ ] wire tap
+    - [ ] message history
+    - [ ] log
+- [ ] transactional
+- [ ] expiration / timeout
+- [ ] tracer
+- [ ] message copy
+- [ ] route test support
 
-- Implement manager
-- Implement local runner
-- registry
-- service: http
-- component: http-inbound unit test and fix
-- autostart service
-
-
-## BURNT
-
-- prompt:     avoid ctrl-c
+## v1 todo
+- [ ] yesbee cli (see nginx)
+- [ ] dead letter mechanism. send and redeliver for several times?
+- [x] implement spawn runner
+- [ ] clustering mechanism. mdns?
+- [ ] server unittest
+- [ ] component dependency resolver
