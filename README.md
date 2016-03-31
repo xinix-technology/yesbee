@@ -1,4 +1,4 @@
-yesbee 
+yesbee ver 1.x
 ======
 
 [![License](http://img.shields.io/npm/l/yesbee.svg?style=flat-square)](https://github.com/xinix-technology/yesbee/blob/master/LICENSE)
