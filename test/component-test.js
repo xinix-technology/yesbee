@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const assert = require('assert');
 const Component = require('../lib/component');
 
-describe('Component', function () {
+describe('Component', function() {
   'use strict';
 
   describe('#createSource', function() {

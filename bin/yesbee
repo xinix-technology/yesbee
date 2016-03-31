@@ -13,20 +13,22 @@ co(function *() {
   try {
     var config = yield require('../lib/config')();
     var opts = _.reduce(argv, function(result, value, key) {
-      if (key === '_') return result;
+      if (key !== '_') {
+        result[key] = value;
+      }
 
-      result[key] = value;
       return result;
     }, {});
 
     var context = new Context(config);
 
     try {
-      yield context.run({
+      var options = {
         id: argv._[0],
         args: argv._.slice(1),
         opts: opts,
-      });
+      };
+      yield context.run(options);
     } catch(e) {
       if (!(e instanceof Notify)) {
         throw e;

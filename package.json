@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "JSONStream": "^1.0.7",
-    "bono": "^0.1.0",
+    "bono": "^0.2.0",
     "co": "^4.6.0",
     "colors": "^1.1.2",
     "delegates": "^0.1.0",

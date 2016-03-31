@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const assert = require('assert');
 const Source = require('../lib/source');
 
-describe('Source', function () {
+describe('Source', function() {
   describe('#consume', function() {
     it('require first arg as message', function() {
       var messageMock = {};

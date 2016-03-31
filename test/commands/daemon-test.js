@@ -5,7 +5,7 @@ const co = require('co');
 const task = require('../../lib/commands/daemon');
 const Execution = require('../../lib/execution');
 
-describe('commands/daemon', function () {
+describe('commands/daemon', function() {
   // it('', function(done) {
   //   co(function *() {
   //     try {

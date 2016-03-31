@@ -5,7 +5,7 @@ const Service = require('../lib/service');
 
 require('co-mocha');
 
-describe('Service', function () {
+describe('Service', function() {
   'use strict';
 
   describe('#from', function() {
@@ -127,7 +127,7 @@ describe('Service', function () {
     });
   });
 
-  // it('compile route', function () {
+  // it('compile route', function() {
   //   var contextMock = {
   //     addRoute: sinon.spy()
   //   };

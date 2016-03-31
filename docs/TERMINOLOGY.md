@@ -1,6 +1,6 @@
 # TERMINOLOGY
 
-## App
+## Context
 
 An application context.
 You can run this context as daemon that serve your integration or as client that connect to another yesbee application context.
