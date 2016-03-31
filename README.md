@@ -1,4 +1,4 @@
-yesbee
+yesbee 
 ======
 
 [![License](http://img.shields.io/npm/l/yesbee.svg?style=flat-square)](https://github.com/xinix-technology/yesbee/blob/master/LICENSE)
@@ -30,6 +30,6 @@ Service adalah sebuah layanan yang disusun dari beberapa komponen yang membentuk
 
 ## English
 
-`yesbee` spelled (in english) homophonely to ESB. As how it spell you can say that `yesbee` is an ESB platform, the light one. `yesbee` build with node.js and programming on top of `yesbee` primarily using javascript.
+`yesbee` spelling (in english) homophonely to ESB. As how it spell you can say that `yesbee` is an ESB platform, the light one. `yesbee` build with node.js and programming on top of `yesbee` primarily using javascript.
 
 
